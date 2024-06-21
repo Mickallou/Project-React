@@ -2,80 +2,17 @@ img{
     width: 20px;
     height: 20px;
     display: block;
+}  
+
+#lightMode{
+    background-color: #2C6EFD;
 }
 
-nav{
-    width: 100vw;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+#darkMode{
+    background-color: black;
 }
 
-
-
-.darkModeNav{
-    background-color: #333;
-    color: white;
-}
-
-.lightModeNav{
-    background-color: #f1f1f1;
-    color: black;
-}
-
-nav ul{
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-}
-
-nav ul section{
-    display: flex;
-    justify-self: center;
-    align-items: center;
-}
-
-nav ul section li{
-    margin-right: 20px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-nav ul section li a{
-    text-decoration: none;
-    color: black;
-    font-size: 35px;
-    font-weight: 300;
-}
-
-.logo{
-    font-weight: bold;
-}
-
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-input{
-    width: 250px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 5px;
-}
-
-button{
-    width: 70px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid black;
-    background-color: #f1f1f1;
-    font-weight: bold;
+#pageName{
+    font-size: 30px;
+    font-weight: 800;
 }
