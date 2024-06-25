@@ -1,0 +1,12 @@
+.iconCard svg {
+    cursor: pointer; 
+    transition: fill 0.2s; 
+}
+
+.isFavorite {
+    fill: red;
+}
+
+.iconCard svg:hover {
+    fill: pink; 
+}

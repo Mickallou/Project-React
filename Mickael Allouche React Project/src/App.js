@@ -4,6 +4,7 @@ import { AdminProvider } from './Context/Admin';
 import { IsBusinessProvider } from './Context/Business';
 import { ContectedProvider } from './Context/Contected';
 import { ThemeModeProvider } from './Context/ThemeMode';
+import { FavCardProvider } from './Context/FavCard';
 import Router from './Router';
 
 function App() {
@@ -14,8 +15,10 @@ function App() {
         <ContectedProvider >
           <IsBusinessProvider>
             <AdminProvider>
-              <NavBar />
-              <Router />
+              <FavCardProvider>
+                <NavBar />
+                <Router />
+              </FavCardProvider>
             </AdminProvider>
           </IsBusinessProvider>
         </ContectedProvider>
