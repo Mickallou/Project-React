@@ -2,15 +2,24 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './NavBar.css'
 import { useThemeMode } from '../../Context/ThemeMode'
-import { useContected } from '../../Context/Contected'
 import { useBusiness } from '../../Context/Business'
 import { useAdmin } from '../../Context/Admin'
+import { useTheUser } from '../../Context/TheUser'
+import { useToken } from '../../Context/Token'
 
 const NavBar = () => {
     const {darkMode, setDarkMode} = useThemeMode()
-    const {isContected, setIsContected} = useContected()
     const {isBusiness} = useBusiness()
     const {isAdmin} = useAdmin()
+    const {theUser, setTheUser} = useTheUser()
+    const {setTheToken} = useToken()
+
+    const handleLogout = () => {
+        setTheUser(null);
+        setTheToken(null);
+    }
+
+    console.log('theUser:', theUser)
 
     return (
         <nav className='navbar navbar-expand-lg' id={darkMode ? 'darkMode' : 'lightMode'}>
@@ -24,7 +33,7 @@ const NavBar = () => {
                         <li className="nav-item">
                             <Link to='/about' className="nav-link active text-white" aria-current="page">ABOUT</Link>
                         </li>
-                        {isContected &&
+                        {theUser &&
                             <li className="nav-item">
                                 <Link to='/favCards' className="nav-link active text-white" aria-current="page">FAV CARDS</Link>
                             </li>
@@ -55,7 +64,7 @@ const NavBar = () => {
                         </svg>
                     }
 
-                    { !isContected &&
+                    { !theUser &&
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <Link to='/login' className="nav-link active text-white" aria-current="page">LOGIN</Link>
@@ -66,17 +75,11 @@ const NavBar = () => {
                         </ul>
                     }
 
-                    { isContected &&
-                        <div className='d-flex align-items-center gap-1'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle text-white" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                            </svg>
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <button to='/' className="nav-link active text-white" aria-current="page" onClick={() => setIsContected(!isContected)}>LOGOUT</button>
-                                </li>
-                            </ul>
+                    { theUser &&
+                        <div className='d-flex gap-3'>
+
+                                    <img src={theUser.image.url} alt={theUser.image.alt} className='userImg' />
+                                    <button className="nav-link active text-white" aria-current="page" onClick={handleLogout}>LOGOUT</button>
                         </div>
                     }
                     

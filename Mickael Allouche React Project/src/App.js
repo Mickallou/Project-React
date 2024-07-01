@@ -2,27 +2,27 @@ import './App.css';
 import NavBar from './Components/NavBar/NavBar';
 import { AdminProvider } from './Context/Admin';
 import { IsBusinessProvider } from './Context/Business';
-import { ContectedProvider } from './Context/Contected';
 import { ThemeModeProvider } from './Context/ThemeMode';
-import { FavCardProvider } from './Context/FavCard';
 import Router from './Router';
+import { TheUserProvider } from './Context/TheUser';
+import { TokenProvider } from './Context/Token';
 
 function App() {
   
   return (
     <div className='app' >
-      <ThemeModeProvider >
-        <ContectedProvider >
-          <IsBusinessProvider>
-            <AdminProvider>
-              <FavCardProvider>
-                <NavBar />
-                <Router />
-              </FavCardProvider>
-            </AdminProvider>
-          </IsBusinessProvider>
-        </ContectedProvider>
-      </ThemeModeProvider>
+      <TokenProvider>
+        <ThemeModeProvider >
+            <IsBusinessProvider>
+              <AdminProvider>
+                <TheUserProvider>
+                  <NavBar />
+                  <Router />
+                </TheUserProvider>
+              </AdminProvider>
+            </IsBusinessProvider>
+        </ThemeModeProvider>
+      </TokenProvider>
     </div>
   );
 }
