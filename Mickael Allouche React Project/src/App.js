@@ -5,6 +5,8 @@ import Router from './Router';
 import { TheUserProvider } from './Context/TheUser';
 import { TokenProvider } from './Context/Token';
 import { FavCardUserProvider } from './Context/FavCardUser';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   
@@ -16,6 +18,7 @@ function App() {
                   <FavCardUserProvider>
                     <NavBar />
                     <Router />
+                    <ToastContainer />
                   </FavCardUserProvider>
                 </TheUserProvider>
         </ThemeModeProvider>

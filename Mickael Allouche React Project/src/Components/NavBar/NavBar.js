@@ -8,15 +8,13 @@ import { useToken } from '../../Context/Token'
 const NavBar = () => {
     const {darkMode, setDarkMode} = useThemeMode()
     const {theUser, setTheUser} = useTheUser()
-    const {theToken, setTheToken} = useToken()
+    const { setTheToken } = useToken()
 
     const handleLogout = () => {
         setTheUser(null);
         setTheToken(null);
+        localStorage.removeItem('token');
     }
-
-    console.log('theUser:', theUser)
-    console.log('theToken:', theToken)
 
     return (
         <nav className='navbar navbar-expand-lg' id={darkMode ? 'darkMode' : 'lightMode'}>

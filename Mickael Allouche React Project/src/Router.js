@@ -7,6 +7,8 @@ import BusinessCard from './Components/Card/BusinessCard'
 import Register from './Components/Register/Register'
 import NewCard from './Components/Card/NewCard'
 import OneCard from './Components/Card/OneCard'
+import Sandbox from './Components/SandBox/Sandbox'
+import EditCard from './Components/Card/EditCard'
 
 const Router = () => {
     return (
@@ -17,9 +19,10 @@ const Router = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/favCards" element={<FavCardPage /> } />
             <Route path="/myCards" element={<BusinessCard />} />
-            <Route path="/sandBox" element={<p>SandBox</p>} /> 
+            <Route path="/sandBox" element={<Sandbox />} /> 
             <Route path="/newCard" element={<NewCard />} />
             <Route path="/cards/:id" element={<OneCard />} />
+            <Route path="/cards/edit/:id" element={<EditCard />} />
         </Routes>
     )
 }

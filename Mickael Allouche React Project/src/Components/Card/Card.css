@@ -24,8 +24,17 @@ button.newCard {
 }
 
 .oneCard {
-    width: 70%;
+    width: 60%;
     padding: 1rem;
     margin: 50px auto;
 }
 
+.oneCard img {
+    width: 80%;
+    height: 500px;
+    margin: 0 auto;
+}
+
+.bi-pen-fill:hover {
+    fill: green;
+}

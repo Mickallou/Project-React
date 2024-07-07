@@ -3,6 +3,7 @@ import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '../../Context/Token';
+import { toast } from 'react-toastify'; 
 
 const Login = () => {
     const { setTheToken } = useToken();
@@ -24,10 +25,13 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/login', user);
-            setTheToken(response.data);
+            const token = localStorage.setItem('token', response.data);
+            setTheToken(token);
+            toast.success('You are now logged in!');
             navigate('/');
         } catch (err) {
-                setError('Invalid email or password. Please try again.');
+            setError('Invalid email or password. Please try again.');
+            toast.error('Invalid email or password. Please try again.');
         }
     };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { validateForm } from './Validate';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -61,12 +62,12 @@ const Register = () => {
         console.log(formData);
         if (validateForm(formData, setErrors)) {
             try {
-                const response = await axios.post('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users', formData);
+                await axios.post('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users', formData);
+                toast.success('You are now registered!');
                 navigate('/');
-                console.log(response.data);
             } catch (err) {
                 setErrors({ apiError: 'Something went wrong. Please try again.' });
-                console.log(err);
+                toast.error('Something went wrong. Please try again.');
             }
         }
     };
@@ -88,7 +89,7 @@ const Register = () => {
                 </div>
                 <div className='d-flex flex-row gap-5'>
                         <input type="text" placeholder='Image URL' className="form-control" name='image.url' value={formData.image.url} onChange={handleChange} />
-                        <input type="text" placeholder='Image ALT' className="form-control" name='image.alt' value={formData.address.state} onChange={handleChange} />
+                        <input type="text" placeholder='Image ALT' className="form-control" name='image.alt' value={formData.image.alt} onChange={handleChange} />
                 </div>
                 <div className='d-flex flex-row gap-5'>
                         <input type="text" placeholder='State' className="form-control" name='address.state' value={formData.address.state} onChange={handleChange} />
