@@ -38,7 +38,7 @@ const BusinessCard = () => {
     if (error) return <p>Error!</p>;
 
     return (
-        <div className={darkMode ? "bg-secondary page" : "bg-primary-subtle page"}>
+        <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
             <div className="d-flex flex-wrap gap-2 justify-content-center">
             { theUser &&
                 <>

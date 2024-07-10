@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '../../Context/Token';
 import { toast } from 'react-toastify'; 
+import { useThemeMode } from '../../Context/ThemeMode';
 
 const Login = () => {
     const { setTheToken } = useToken();
@@ -12,6 +13,7 @@ const Login = () => {
         password: ''
     });
     const [error, setError] = useState('');
+    const { darkMode } = useThemeMode();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -36,22 +38,22 @@ const Login = () => {
     };
 
     return (
-        <div className='w-auto h-auto p-3'>
-            <h1>Login</h1>
-            <form className='d-flex flex-column justify-content-center align-items-center mt-5 gap-3' onSubmit={handleSubmit}>
-                <div className='d-flex flex-row gap-5'>
-                    <div className="mb-3">
-                        <label htmlFor='email' className="form-label">Email address</label>
-                        <input type="email" className="form-control" name='email' value={user.email} onChange={handleChange} required />
+        <div className={darkMode ? 'bg-secondary logPage' : 'bg-primary-subtle logPage'}>
+                <h1>Login</h1>
+                <form className='d-flex  flex-column justify-content-center align-items-center mt-5 gap-3' onSubmit={handleSubmit}>
+                    <div className='d-flex flex-wrap flex-row gap-5 align-items-center'>
+                        <div className="mb-3">
+                            <label htmlFor='email' className="form-label">Email address</label>
+                            <input type="email" className="form-control" name='email' value={user.email} onChange={handleChange} required />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" className="form-control" name='password' value={user.password} onChange={handleChange} required />
+                        </div>
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" className="form-control" name='password' value={user.password} onChange={handleChange} required />
-                    </div>
-                </div>
-                {error && <div className="alert alert-danger">{error}</div>}
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <button type="submit" className={darkMode ? "btn btn-dark" : "btn btn-primary" }>Submit</button>
+                </form>
         </div>
     );
 };

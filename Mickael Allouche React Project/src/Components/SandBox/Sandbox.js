@@ -69,10 +69,10 @@ const Sandbox = () => {
                             <td>{user.email}</td>
                             <td>{user.isBusiness ? 'True' : 'False'}</td>
                             <td>
-                                <button onClick={() => handleBusinessChange(user._id)}>Change</button>
+                                <button type="button" class="btn btn-outline-primary" onClick={() => handleBusinessChange(user._id)}>Change</button>
                             </td>
                             <td>
-                                <button onClick={handleDeleteCard}>Delete</button><br />
+                                <button type="button" class="btn btn-outline-primary" onClick={handleDeleteCard}>Delete</button><br />
                                 {errors.delete && <p>{errors.delete}</p>}
                             </td>
                         </tr>

@@ -3,6 +3,8 @@ import { validateForm } from './Validate';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useThemeMode } from '../../Context/ThemeMode';
+import './Register.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -30,6 +32,7 @@ const Register = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const { darkMode } = useThemeMode();
     const navigate  = useNavigate();
 
     const handleChange = (e) => {
@@ -73,8 +76,8 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <form className='d-flex flex-column justify-content-center align-items-center mt-5 gap-3' onSubmit={handleSubmit}>
+        <div className={darkMode ? "bg-secondary regPage" : "bg-primary-subtle regPage"}>
+            <form className='d-flex flex-wrap flex-column justify-content-center align-items-center mt-5 gap-3' onSubmit={handleSubmit}>
                 <div className='d-flex flex-row gap-5'>
                         <input type="text" placeholder='First Name*' className="form-control" name='name.first' value={formData.name.first} onChange={handleChange} required />
                         <input type="text" placeholder='Middle Name' className="form-control" name='name.middle' value={formData.name.middle} onChange={handleChange} />
@@ -110,7 +113,7 @@ const Register = () => {
                 {Object.keys(errors).map((key) => (
                     <div key={key} className="alert alert-danger">{errors[key]}</div>
                 ))}
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className={darkMode ? "btn btn-dark" : "btn btn-primary" }>Submit</button>
             </form>
         </div>
     );

@@ -7,6 +7,7 @@ import { TokenProvider } from './Context/Token';
 import { FavCardUserProvider } from './Context/FavCardUser';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
                   <FavCardUserProvider>
                     <NavBar />
                     <Router />
+                    <Footer />
                     <ToastContainer />
                   </FavCardUserProvider>
                 </TheUserProvider>

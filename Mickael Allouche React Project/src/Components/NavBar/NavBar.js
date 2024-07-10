@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './NavBar.css'
 import { useThemeMode } from '../../Context/ThemeMode'
 import { useTheUser } from '../../Context/TheUser'
@@ -9,6 +9,7 @@ const NavBar = () => {
     const {darkMode, setDarkMode} = useThemeMode()
     const {theUser, setTheUser} = useTheUser()
     const { setTheToken } = useToken()
+    const navigate = useNavigate()
 
     const handleLogout = () => {
         setTheUser(null);
@@ -73,7 +74,7 @@ const NavBar = () => {
                         </ul>
                     ) : (
                         <div className='d-flex gap-3'>  
-                        <img src={theUser.image.url} alt={theUser.image.alt} className='userImg'/>
+                        <img src={theUser.image.url} alt={theUser.image.alt} className='userImg' onClick={() => navigate('/user/edit')}/>
                         <button className='btn btn-outline-light' onClick={handleLogout}>LOGOUT</button>
                         </div>
                     )}

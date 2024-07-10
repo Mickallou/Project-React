@@ -9,6 +9,7 @@ import NewCard from './Components/Card/NewCard'
 import OneCard from './Components/Card/OneCard'
 import Sandbox from './Components/SandBox/Sandbox'
 import EditCard from './Components/Card/EditCard'
+import UpdateUser from './Components/UpdateUser/UpdateUser'
 
 const Router = () => {
     return (
@@ -23,6 +24,7 @@ const Router = () => {
             <Route path="/newCard" element={<NewCard />} />
             <Route path="/cards/:id" element={<OneCard />} />
             <Route path="/cards/edit/:id" element={<EditCard />} />
+            <Route path='/user/edit' element={<UpdateUser />} />
         </Routes>
     )
 }
