@@ -10,12 +10,13 @@ import OneCard from './Components/Card/OneCard'
 import Sandbox from './Components/SandBox/Sandbox'
 import EditCard from './Components/Card/EditCard'
 import UpdateUser from './Components/UpdateUser/UpdateUser'
+import About from './Components/About/About'
 
 const Router = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />} /> 
-            <Route path="/about" element={<p>About</p>} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={ <Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/favCards" element={<FavCardPage /> } />

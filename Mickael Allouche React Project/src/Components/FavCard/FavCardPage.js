@@ -5,6 +5,7 @@ import { useThemeMode } from '../../Context/ThemeMode';
 import { useTheUser } from '../../Context/TheUser';
 import './FavCardPage.css';
 import { useFavCardUser } from '../../Context/FavCardUser';
+import { useSearch } from '../../Context/Search';
 
 const FavCardPage = () => {
     const [data, setData] = useState([]);
@@ -13,6 +14,7 @@ const FavCardPage = () => {
     const { darkMode } = useThemeMode();
     const { theUser } = useTheUser();
     const { favCardUser, setFavCardUser } = useFavCardUser();
+    const { search } = useSearch()
 
     useEffect(() => {
         axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
@@ -38,9 +40,14 @@ const FavCardPage = () => {
 
     return (
         <div className={darkMode ? "bg-secondary page" : "bg-primary-subtle page"}>
+            { search && 
+                <h1>Research cards: {search}</h1>
+            }
+
             { theUser &&
                 <div className="d-flex flex-wrap gap-2 justify-content-center">
-                    {favCardUser.map(card => (
+
+                    {(search ? favCardUser.filter(c => c.title.includes(search)) : favCardUser).map(card => (
                         <Card key={card._id} card={card} />
                     ))}
                 </div>

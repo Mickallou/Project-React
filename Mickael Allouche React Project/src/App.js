@@ -8,6 +8,7 @@ import { FavCardUserProvider } from './Context/FavCardUser';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from './Components/Footer/Footer';
+import { SearchProvider } from './Context/Search';
 
 function App() {
   
@@ -15,14 +16,16 @@ function App() {
     <div className='app' >
       <TokenProvider>
         <ThemeModeProvider >
-                <TheUserProvider>
-                  <FavCardUserProvider>
-                    <NavBar />
-                    <Router />
-                    <Footer />
-                    <ToastContainer />
-                  </FavCardUserProvider>
-                </TheUserProvider>
+          <SearchProvider >
+            <TheUserProvider>
+              <FavCardUserProvider>
+                <NavBar />
+                <Router />
+                <Footer />
+                <ToastContainer />
+              </FavCardUserProvider>
+            </TheUserProvider>
+          </SearchProvider>
         </ThemeModeProvider>
       </TokenProvider>
     </div>

@@ -4,17 +4,31 @@ import './NavBar.css'
 import { useThemeMode } from '../../Context/ThemeMode'
 import { useTheUser } from '../../Context/TheUser'
 import { useToken } from '../../Context/Token'
+import { toast } from 'react-toastify'
+import { useSearch } from '../../Context/Search'
 
 const NavBar = () => {
     const {darkMode, setDarkMode} = useThemeMode()
     const {theUser, setTheUser} = useTheUser()
     const { setTheToken } = useToken()
     const navigate = useNavigate()
+    const {search, setSearch} = useSearch()
 
     const handleLogout = () => {
         setTheUser(null);
         setTheToken(null);
         localStorage.removeItem('token');
+        navigate('/')
+        toast.success('You have been logged out successfully, See you soon!')
+    }
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value)
+    }
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        setSearch(search)
     }
 
     return (
@@ -47,8 +61,8 @@ const NavBar = () => {
                             </>
                         )}
                     </ul>
-                    <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
+                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={handleSearchChange} />
                         <button className="btn btn-outline-light" type="submit">Search</button>
                     </form>
 

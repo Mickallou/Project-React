@@ -4,6 +4,7 @@ import axios from 'axios'
 import Card from './Card'
 import { useThemeMode } from '../../Context/ThemeMode'
 import { useNavigate } from 'react-router-dom'
+import { useSearch } from '../../Context/Search'
 import './Card.css'
 
 const BusinessCard = () => {
@@ -14,6 +15,7 @@ const BusinessCard = () => {
     const [error, setError] = useState(null);
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
+    const { search } = useSearch()
 
     useEffect(() => {
         axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
@@ -39,11 +41,14 @@ const BusinessCard = () => {
 
     return (
         <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
+            {search &&
+            <h1>Research Cards: {search}</h1>
+            }
             <div className="d-flex flex-wrap gap-2 justify-content-center">
             { theUser &&
                 <>
                 <button className="btn newCard" onClick={() => navigate('/newCard')}>New Card</button>
-                    {businessCard.map(card => (
+                    {((search ? businessCard.filter(c => c.title.includes(search)) : businessCard)).map(card => (
                         <Card key={card._id} card={card} />
                     ))}
                 </>
