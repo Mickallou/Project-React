@@ -6,28 +6,31 @@ import { useThemeMode } from '../../Context/ThemeMode'
 import { useNavigate } from 'react-router-dom'
 import { useSearch } from '../../Context/Search'
 import './Card.css'
+import { toast } from 'react-toastify'
+import { useLoading } from '../../Context/Loading'
+import { ThreeDot } from 'react-loading-indicators'
 
 const BusinessCard = () => {
     const {theUser} = useTheUser()
     const [businessCard, setBusinessCard] = useState([])
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
     const { search } = useSearch()
+    const { loading, setLoading } = useLoading(false)
 
     useEffect(() => {
-        axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
+            setLoading(true);
+            axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
             .then(response => {
                 setData(response.data);
                 setLoading(false);
             })
             .catch(error => {
-                setError(error);
-                setLoading(false); 
+                toast.error('Error loading business cards');
+                setLoading(false);
             });
-    }, []);
+    }, [setLoading]);
 
     useEffect(() => {
         if (theUser && data.length > 0) {
@@ -36,8 +39,13 @@ const BusinessCard = () => {
         }
     }, [data, theUser, setBusinessCard]);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error!</p>;
+    if (loading) {
+        return (
+            <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
+                <ThreeDot color="#000000" size={200} />
+            </div>
+        )
+    }
 
     return (
         <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
@@ -56,7 +64,7 @@ const BusinessCard = () => {
             { !theUser &&
                 <p className='alertMess'>Please log in to view your business cards.</p>
             }
-        
+
             </div>
         </div>
     )

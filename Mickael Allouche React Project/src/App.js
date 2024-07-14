@@ -9,25 +9,29 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from './Components/Footer/Footer';
 import { SearchProvider } from './Context/Search';
+import { LoadingProvider } from './Context/Loading';
 
 function App() {
   
+
   return (
     <div className='app' >
-      <TokenProvider>
-        <ThemeModeProvider >
-          <SearchProvider >
-            <TheUserProvider>
-              <FavCardUserProvider>
-                <NavBar />
-                <Router />
-                <Footer />
-                <ToastContainer />
-              </FavCardUserProvider>
-            </TheUserProvider>
-          </SearchProvider>
-        </ThemeModeProvider>
-      </TokenProvider>
+      <LoadingProvider>
+        <TokenProvider>
+          <ThemeModeProvider >
+            <SearchProvider >
+              <TheUserProvider>
+                <FavCardUserProvider>
+                  <NavBar />
+                  <Router />
+                  <Footer />
+                  <ToastContainer />
+                </FavCardUserProvider>
+              </TheUserProvider>
+            </SearchProvider>
+          </ThemeModeProvider>
+        </TokenProvider>
+      </LoadingProvider>
     </div>
   );
 }
