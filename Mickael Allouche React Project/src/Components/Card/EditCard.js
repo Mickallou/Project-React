@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { useToken } from '../../Context/Token';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useLoading } from '../../Context/Loading';
+import { validateNewCard } from './ValidateNewCard'; 
 
 const EditCard = () => {
     const { theToken } = useToken();
@@ -28,13 +30,14 @@ const EditCard = () => {
             zip: '',
         },
     });
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [errors, setErrors] = useState({}); 
+    const { setLoading} = useLoading();
     const { id } = useParams();
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true);
         axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`)
             .then(response => {
                 setCard({
@@ -61,19 +64,10 @@ const EditCard = () => {
                 setLoading(false);
             })
             .catch(error => {
-                console.error('Error fetching card:', error);
-                setError('Error fetching card');
+                toast.error('Error loading card' + error);
                 setLoading(false);
             });
-    }, [id]);
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>{error}</p>;
-    }
+    }, [id, setLoading]);
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -98,16 +92,22 @@ const EditCard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!validateNewCard(card, setErrors)) {
+            toast.error('Please fix the errors before submitting.');
+            return;
+        }
+
+        setLoading(true);
         await axios.put(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`, card, 
             { headers: { 'x-auth-token': theToken} })
             .then(() => {
+                setLoading(false);
                 toast.success('Card updated successfully');
                 navigate('/myCards');
             })
             .catch(error => {
-                console.error('Error updating card:', error);
-                setError('Error updating card: ' + (error.response?.data?.message || error.message));
-                toast.error('Error updating card');
+                toast.error('Error updating card' + error);
+                setLoading(false);
             });
 
         console.log(card);
@@ -123,6 +123,7 @@ const EditCard = () => {
                 <div className="d-flex mb-3">
                     <input type="text" className="form-control" name='subtitle' value={card.subtitle} onChange={handleOnChange} placeholder="Subtitle" />
                     <input type="text" className="form-control" name="phone" value={card.phone} onChange={handleOnChange} placeholder="Phone" />
+                    {errors.phone && <div className="text-danger">{errors.phone}</div>}
                 </div>
                 <div className="d-flex mb-3">
                     <input type="text" className="form-control" name="email" value={card.email} onChange={handleOnChange} placeholder="Email" />
@@ -144,7 +145,9 @@ const EditCard = () => {
                     <input type="text" className="form-control" name="address.houseNumber" value={card.address.houseNumber} onChange={handleOnChange} placeholder="House Number" />
                     <input type="text" className="form-control" name="address.zip" value={card.address.zip} onChange={handleOnChange} placeholder="Zip Code" />
                 </div>
-                {error && <div className="alert alert-danger">{error}</div>}
+                {Object.keys(errors).map((key) => (
+                        <div key={key} className="alert alert-danger">{errors[key]}</div>
+                    ))}
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>

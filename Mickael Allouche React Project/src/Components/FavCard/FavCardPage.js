@@ -6,27 +6,32 @@ import { useTheUser } from '../../Context/TheUser';
 import './FavCardPage.css';
 import { useFavCardUser } from '../../Context/FavCardUser';
 import { useSearch } from '../../Context/Search';
+import { useLoading } from '../../Context/Loading';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const FavCardPage = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { darkMode } = useThemeMode();
     const { theUser } = useTheUser();
     const { favCardUser, setFavCardUser } = useFavCardUser();
     const { search } = useSearch()
+    const { setLoading } = useLoading();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true);
         axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
             .then(response => {
                 setData(response.data);
                 setLoading(false);
             })
             .catch(error => {
-                setError(error);
+                toast.error(error.message);
                 setLoading(false); 
+                navigate('/');
             });
-    }, []);
+    }, [setLoading, navigate]);
 
     useEffect(() => {
         if (theUser && data.length > 0) {
@@ -34,9 +39,6 @@ const FavCardPage = () => {
             setFavCardUser(filteredCards);
         }
     }, [data, theUser, setFavCardUser]); 
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
 
     return (
         <div className={darkMode ? "bg-secondary page" : "bg-primary-subtle page"}>

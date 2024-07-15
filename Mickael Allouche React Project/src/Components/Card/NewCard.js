@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useThemeMode } from '../../Context/ThemeMode';
 import { useToken } from '../../Context/Token';
 import { validateNewCard } from './ValidateNewCard';
+import { useLoading } from '../../Context/Loading';
 
 const NewCard = () => {
     const { darkMode } = useThemeMode();
@@ -30,6 +31,7 @@ const NewCard = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const { setLoading } = useLoading();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -58,7 +60,8 @@ const NewCard = () => {
 
         if (validateNewCard(card, setErrors)) {
             try {
-                const response = await axios.post(
+                setLoading(true);
+                await axios.post(
                     'https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards',
                     card,
                     {
@@ -67,14 +70,14 @@ const NewCard = () => {
                         },
                     }
                 );
+                setLoading(false);
                 navigate('/myCards');
-                console.log(response.data);
             } catch (err) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     apiError: 'Something went wrong. Please try again.'
                 }));
-                console.error(err);
+                setLoading(false);
             }
         }
     };

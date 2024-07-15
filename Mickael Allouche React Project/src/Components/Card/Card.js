@@ -10,7 +10,6 @@ const Card = ({ card }) => {
     const { theUser } = useTheUser();
     const { theToken } = useToken();
     const [isFav, setIsFav] = useState(false);
-    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [isBusiness, setIsBusiness] = useState(false);
 
@@ -35,13 +34,13 @@ const Card = ({ card }) => {
                     setIsFav(!isFav);
                 })
                 .catch(error => {
-                    console.error('Error updating likes:', error);
-                    setErrors({ fav: 'Error updating favorite status' });
+                    toast.error('Error updating card' + error);
                 });
         }
     };
 
     const handleClickedCard = () => {
+        window.scrollTo(0, 0);
         return navigate(`/cards/${card._id}`);
     };
 
@@ -53,8 +52,7 @@ const Card = ({ card }) => {
                 toast.success('Card deleted successfully');
             })
             .catch(error => {
-                setErrors({ delete: 'Error deleting card' });
-                toast.error('Error deleting card');
+                toast.error('Error deleting card' + error);
             });
     };
 
@@ -104,9 +102,6 @@ const Card = ({ card }) => {
                         </svg>
                     </section>
                 </section>
-                {Object.keys(errors).map((key) => (
-                    <div key={key} className="alert alert-danger mt-3">{errors[key]}</div>
-                ))}
             </div>
         </div>
     );

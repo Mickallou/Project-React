@@ -62,7 +62,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        
         if (validateForm(formData, setErrors)) {
             try {
                 await axios.post('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users', formData);

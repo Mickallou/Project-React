@@ -4,28 +4,27 @@ import axios from 'axios';
 import './Home.css';
 import Card from './../Card/Card';
 import { useSearch } from '../../Context/Search';
+import { useLoading } from '../../Context/Loading';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const { darkMode } = useThemeMode();
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { search } = useSearch()
+    const { setLoading } = useLoading(false)
 
     useEffect(() => {
+        setLoading(true);
         axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards')
             .then(response => {
                 setData(response.data);
                 setLoading(false);
             })
             .catch(error => {
-                setError(error);
+                toast.error('Error loading business cards');
                 setLoading(false);
             });
-    }, []);
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    }, [setLoading]);
 
 
     return (

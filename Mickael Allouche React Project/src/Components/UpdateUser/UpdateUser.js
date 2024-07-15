@@ -6,6 +6,7 @@ import { useTheUser } from '../../Context/TheUser';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '../../Context/Token';
 import { validateUpUser } from './ValidateUpUser';
+import { useLoading } from '../../Context/Loading';
 
 const UpdateUser = () => {
     const { theUser } = useTheUser();
@@ -31,12 +32,13 @@ const UpdateUser = () => {
         },
     });
     const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(true);
+    const { setLoading } = useLoading();
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
 
     useEffect(() => {
         const getUser = async () => {
+            setLoading(true);
             try {
                 const res = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${theUser._id}`, {
                     headers: { 'x-auth-token': theToken }
@@ -68,7 +70,7 @@ const UpdateUser = () => {
             }
         };
         getUser();
-    }, [theUser._id, theToken]);
+    }, [theUser._id, theToken, setLoading]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -94,25 +96,20 @@ const UpdateUser = () => {
         e.preventDefault();
 
         if (validateUpUser(user, setErrors)) {
+            setLoading(true);
             try {
                 await axios.put(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${theUser._id}`, user, {
                     headers: { 'x-auth-token': theToken }
                 });
+                setLoading(false);
                 toast.success('User updated successfully');
                 navigate('/');
             } catch (error) {
+                setLoading(false);
                 toast.error('Error updating user');
             }
         }
     };
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (errors.general) {
-        return <p>{errors.general}</p>;
-    }
 
     return (
         <div className={darkMode ? "bg-secondary page" : "bg-primary-subtle page"}>

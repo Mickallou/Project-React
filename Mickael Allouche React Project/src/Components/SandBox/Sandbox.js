@@ -4,24 +4,29 @@ import { useToken } from '../../Context/Token';
 import { useTheUser } from '../../Context/TheUser';
 import axios from 'axios';
 import './Sandbox.css';
+import { useLoading } from '../../Context/Loading';
+import { toast } from 'react-toastify';
 
 const Sandbox = () => {
     const { theToken } = useToken();
     const { theUser } = useTheUser();
     const [users, setUsers] = useState([]);
-    const [errors, setErrors] = useState({});
+    const { setLoading } = useLoading(false);
 
     useEffect(() => {
+        setLoading(true);
         const fetchUsers = async () => {
             try {
                 const user = await getAllUsers(theToken);
                 setUsers(user);
+                setLoading(false);
             } catch (error) {
-                console.error('Error fetching users in Sandbox:', error);
+                toast.error('Error fetching users');
+                setLoading(false);
             }
         };
         fetchUsers();
-    }, [theToken, theUser]);
+    }, [theToken, theUser, setLoading]);
 
     const handleBusinessChange = (id) => {
         setUsers(prevUsers =>
@@ -36,11 +41,10 @@ const Sandbox = () => {
             { headers: { 'x-auth-token': theToken } }
             )
             .then(response => {
-                console.log('Card deleted:', response);
+                toast.success('Card deleted');
             })
             .catch(error => {
-                console.error('Error deleting card:', error);
-                setErrors({ delete: 'Error deleting card' });
+                toast.error('Error deleting card' + error);
             });
     };
 
@@ -73,7 +77,6 @@ const Sandbox = () => {
                             </td>
                             <td>
                                 <button type="button" className="btn btn-outline-primary" onClick={handleDeleteCard}>Delete</button><br />
-                                {errors.delete && <p>{errors.delete}</p>}
                             </td>
                         </tr>
                     ))}

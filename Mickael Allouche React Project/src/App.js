@@ -9,10 +9,24 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from './Components/Footer/Footer';
 import { SearchProvider } from './Context/Search';
-import { LoadingProvider } from './Context/Loading';
+import { LoadingProvider, useLoading } from './Context/Loading';
+import Loader from './Components/Loader/Loader';
+
+function AppContent() {
+  const { loading } = useLoading();
+
+  return (
+    <div className='app'>
+      <NavBar />
+      {loading && <Loader />}
+      <Router />
+      <Footer />
+      <ToastContainer />
+    </div>
+  );
+}
 
 function App() {
-  
 
   return (
     <div className='app' >
@@ -22,10 +36,7 @@ function App() {
             <SearchProvider >
               <TheUserProvider>
                 <FavCardUserProvider>
-                  <NavBar />
-                  <Router />
-                  <Footer />
-                  <ToastContainer />
+                  <AppContent />
                 </FavCardUserProvider>
               </TheUserProvider>
             </SearchProvider>

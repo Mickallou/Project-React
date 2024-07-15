@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToken } from '../../Context/Token';
 import { toast } from 'react-toastify'; 
 import { useThemeMode } from '../../Context/ThemeMode';
+import { useLoading } from '../../Context/Loading';
 
 const Login = () => {
     const { setTheToken } = useToken();
@@ -12,9 +13,9 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const [error, setError] = useState('');
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
+    const { setLoading } = useLoading();
 
     const handleChange = (e) => {
         setUser({
@@ -26,14 +27,16 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const response = await axios.post('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/login', user);
             const token = localStorage.setItem('token', response.data);
             setTheToken(token);
+            setLoading(false);
             toast.success('You are now logged in!');
             navigate('/');
         } catch (err) {
-            setError('Invalid email or password. Please try again.');
             toast.error('Invalid email or password. Please try again.');
+            setLoading(false);
         }
     };
 
@@ -51,7 +54,6 @@ const Login = () => {
                             <input type="password" className="form-control" name='password' value={user.password} onChange={handleChange} required />
                         </div>
                     </div>
-                    {error && <div className="alert alert-danger">{error}</div>}
                     <button type="submit" className={darkMode ? "btn btn-dark" : "btn btn-primary" }>Submit</button>
                 </form>
         </div>

@@ -22,7 +22,6 @@ const getUsers = async (token) => {
         
         return response.data;
     } catch (error) {
-        console.error('Error fetching users in getUsers:', error.response || error.message);
         throw error;
     }
 };

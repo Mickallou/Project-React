@@ -8,7 +8,6 @@ import { useSearch } from '../../Context/Search'
 import './Card.css'
 import { toast } from 'react-toastify'
 import { useLoading } from '../../Context/Loading'
-import { ThreeDot } from 'react-loading-indicators'
 
 const BusinessCard = () => {
     const {theUser} = useTheUser()
@@ -17,7 +16,7 @@ const BusinessCard = () => {
     const { darkMode } = useThemeMode();
     const navigate = useNavigate();
     const { search } = useSearch()
-    const { loading, setLoading } = useLoading(false)
+    const { setLoading } = useLoading(false)
 
     useEffect(() => {
             setLoading(true);
@@ -38,14 +37,6 @@ const BusinessCard = () => {
             setBusinessCard(filteredCards);
         }
     }, [data, theUser, setBusinessCard]);
-
-    if (loading) {
-        return (
-            <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
-                <ThreeDot color="#000000" size={200} />
-            </div>
-        )
-    }
 
     return (
         <div className={darkMode ? "bg-secondary pt-5 page" : "bg-primary-subtle pt-5 page"}>
