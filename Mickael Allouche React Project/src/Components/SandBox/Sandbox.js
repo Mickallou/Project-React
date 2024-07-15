@@ -21,8 +21,8 @@ const Sandbox = () => {
                 setUsers(user);
                 setLoading(false);
             } catch (error) {
-                toast.error('Error fetching users');
                 setLoading(false);
+                toast.error('Error fetching users');
             }
         };
         fetchUsers();

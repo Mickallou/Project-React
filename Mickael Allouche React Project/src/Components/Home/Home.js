@@ -28,7 +28,7 @@ const Home = () => {
 
 
     return (
-        <div className={darkMode ? 'bg-secondary p-3 page' : 'bg-primary-subtle p-3 page'}>
+        <div className={darkMode ? 'bg-secondary homePage' : 'bg-primary-subtle homePage'}>
             {search &&
                 <h1>Research cards: {search}</h1>
             }

@@ -11,3 +11,7 @@ img{
 .card{
     text-transform: capitalize;
 }
+
+.homePage{
+    padding-bottom: 200px;
+}
